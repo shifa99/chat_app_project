@@ -8,7 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 class SendMessege extends StatefulWidget {
   final userid;
-  SendMessege(this.userid);
+  final chatid;
+  SendMessege(this.userid, this.chatid);
   @override
   _SendMessegeState createState() => _SendMessegeState();
 }
@@ -40,7 +41,7 @@ class _SendMessegeState extends State<SendMessege> {
         .doc(widget.userid)
         .get();
 
-    await FirebaseFirestore.instance.collection('newchats').add({
+    await FirebaseFirestore.instance.collection(widget.chatid).add({
       'text': typeMessege == 0 ? messege : url,
       'createdAt': Timestamp.now(),
       'username': userdata['username'],

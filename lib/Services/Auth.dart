@@ -30,7 +30,8 @@ Future<void> authenticate(String email, String password, bool isLoged,
         'username': username,
         'password': password,
         'email': email,
-        'image': url
+        'image': url,
+        'userid': userCredential.user.uid,
       });
     }
   } on FirebaseAuthException catch (e) {
@@ -43,6 +44,8 @@ Future<void> authenticate(String email, String password, bool isLoged,
       errorMessege = 'No user found for that email.';
     } else if (e.code == 'wrong-password') {
       errorMessege = 'Wrong password provided for that user.';
+    } else {
+      errorMessege = 'You can try again letter.';
     }
     return showDialog(
         context: context,
@@ -58,8 +61,5 @@ Future<void> authenticate(String email, String password, bool isLoged,
                 )
               ],
             ));
-  } catch (e) {
-    print(e);
-    print("hee");
-  }
+  } catch (e) {}
 }

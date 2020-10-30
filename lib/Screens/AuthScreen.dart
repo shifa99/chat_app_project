@@ -7,16 +7,19 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 
-class HomeScreen extends StatefulWidget {
+class AuthScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AuthScreenState extends State<AuthScreen> {
   bool loginMode = true;
   bool _isLoged = true;
   bool _isLoaded = false;
   final _formKey = GlobalKey<FormState>();
+  final focusPassword = FocusNode();
+  final focusCofirmPassword = FocusNode();
+
   final _controllerPassword = TextEditingController();
   String email, username, password;
   File _image;
@@ -39,9 +42,16 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     _formKey.currentState.save();
+    setState(() {
+      _isLoaded = true;
+    });
     FocusScope.of(context).unfocus(); //to close Keyboard
     _isLoged = loginMode ? true : false;
     authenticate(email, password, _isLoged, username, _image, ctx);
+
+    setState(() {
+      _isLoaded = false;
+    });
     !loginMode
         ? setState(() {
             loginMode = true;
@@ -58,6 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
         _image = File(pickedImage.path);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -141,12 +156,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onSaved: (newEmail) {
                                           username = newEmail;
                                         },
+                                        onFieldSubmitted: (_) {
+                                          FocusScope.of(context)
+                                              .requestFocus(focusPassword);
+                                        },
                                       ),
                                     if (!loginMode)
                                       SizedBox(
                                         height: 10,
                                       ),
                                     TextFormField(
+                                      focusNode: focusPassword,
                                       key: ValueKey('Password'),
                                       textInputAction: loginMode
                                           ? TextInputAction.done
@@ -165,6 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onSaved: (newPassword) {
                                         password = newPassword;
                                       },
+                                      onFieldSubmitted: (_) {
+                                        FocusScope.of(context)
+                                            .requestFocus(focusCofirmPassword);
+                                      },
                                     ),
                                     if (!loginMode)
                                       SizedBox(
@@ -172,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     if (!loginMode)
                                       TextFormField(
+                                        focusNode: focusCofirmPassword,
                                         key: ValueKey('Confirm-Password'),
                                         obscureText: true,
                                         textInputAction: TextInputAction.done,
@@ -192,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     RaisedButton(
                                       child: _isLoaded
                                           ? CircularProgressIndicator(
-                                              backgroundColor: Colors.black,
+                                              backgroundColor: Colors.white,
                                             )
                                           : Text(
                                               (loginMode
@@ -207,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onPressed: () {
                                         saved(context);
                                       },
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -230,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Text('SignUp',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   )),
                               color: Color(0xfff4abc4),

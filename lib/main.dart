@@ -1,10 +1,14 @@
 import 'package:chat_app/Screens/ChatScreen.dart';
-import 'package:chat_app/Screens/HomeScreen.dart';
+import 'package:chat_app/Screens/AuthScreen.dart';
+import 'package:chat_app/Screens/ChatWithFriend.dart';
+import 'package:chat_app/Screens/PeopleScreen.dart';
 import 'package:chat_app/Screens/ProfileScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'Screens/HomeScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,11 +47,13 @@ class MyApp extends StatelessWidget {
         ChatScreen.routeName: (context) => ChatScreen(),
         ProfileScreen.routeName: (context) =>
             ProfileScreen(userid: FirebaseAuth.instance.currentUser.uid),
+        PeopleScreen.routeName: (context) => PeopleScreen(),
+        ChatWithFriend.routeName: (context) => ChatWithFriend(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, snapshot) =>
-            snapshot.hasData ? ChatScreen() : HomeScreen(),
+            snapshot.hasData ? HomeScreen() : AuthScreen(),
       ),
     );
   }

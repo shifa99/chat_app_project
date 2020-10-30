@@ -6,7 +6,7 @@ PreferredSizeWidget buildAppBar(BuildContext context, String userid) {
   return AppBar(
     title: Text('Chat Home'),
     centerTitle: true,
-    backgroundColor: Color(0xff333456),
+    backgroundColor: Color(0xff060930),
     actions: [
       DropdownButton(
         underline: Container(),

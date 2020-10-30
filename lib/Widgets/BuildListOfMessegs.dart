@@ -25,9 +25,7 @@ class BuildListOfMessegs extends StatelessWidget {
                     isMe: snapShots.data.docs[i]['userid'] == userid,
                     name: snapShots.data.docs[i]['username'],
                     url: snapShots.data.docs[i]['imageurl'],
-                    type: snapShots.data.docs[i]['typeMessege'] == null
-                        ? 0
-                        : snapShots.data.docs[i]['typeMessege'],
+                    type: snapShots.data.docs[i]['typeMessege'],
                   ),
                 ),
     );

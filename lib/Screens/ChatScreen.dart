@@ -12,21 +12,24 @@ class ChatScreen extends StatelessWidget {
   final userid = FirebaseAuth.instance.currentUser.uid;
   @override
   Widget build(BuildContext context) {
-    // final userid = FirebaseAuth.instance.currentUser.uid;
-    // final
-    // final currentUser = FirebaseAuth.instance.currentUser;
-    // final userid = currentUser.uid;
-    // final collection = FirebaseFirestore.instance.collection('newchats');
     return Scaffold(
-        appBar: buildAppBar(context, userid),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: BuildListOfMessegs('newchats'),
-            ),
-            SendMessege(userid),
-          ],
-        ));
+      appBar: AppBar(
+        backgroundColor: Color(0xff060930),
+        centerTitle: true,
+        title: Text(
+          'Group Chat',
+          style: KStyle.copyWith(color: Colors.white),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: BuildListOfMessegs('newchats'),
+          ),
+          SendMessege(userid, 'newchats'),
+        ],
+      ),
+    );
   }
 }
